@@ -24,10 +24,6 @@ const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
   .split(',')
   .map((origin) => origin.trim());
 
-// In development we accept any origin (Vite frequently picks a non-standard
-// port, which would otherwise trip the strict allow-list and break every API
-// call in the browser). In production only the configured frontend origins are
-// allowed, so the allow-list still matters for deployed environments.
 app.use(
   cors({
     origin(origin, callback) {
@@ -69,19 +65,26 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-const startServer = async () => {
+let dbReady = false;
+export const ensureDbConnection = async () => {
+  if (dbReady) return;
   try {
     await connectDB();
     console.log('MongoDB connection established successfully.');
+    dbReady = true;
   } catch (error) {
     console.error('MongoDB connection FAILED.');
     console.error(`  Reason: ${error.message}`);
-    console.error('  Database endpoints will fail until MONGODB_URI in backend/.env is valid.');
+    console.error('  Database endpoints will fail until MONGODB_URI is valid.');
   }
-
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
 };
 
-startServer();
+if (!process.env.VERCEL) {
+  ensureDbConnection().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  });
+}
+
+export default app;
