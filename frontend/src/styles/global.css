@@ -1,0 +1,207 @@
+/* ================================================================== */
+/*  GLOBAL BASE STYLES                                                */
+/*  Design tokens, base typography, shared buttons + eyebrow styles.   */
+/*  Bootstrap handles layout; custom CSS handles the exact design.     */
+/* ================================================================== */
+
+:root {
+  /* ---- Brand palette ---- */
+  --blue: #1769ff;
+  --blue-dark: #0e58d6;
+  --blue-deep: #0a4db3;
+  --blue-soft: #eef7ff;
+  --blue-mist: #f5faff;
+
+  --dark: #111111;
+  --ink: #1c2430;
+  --gray: #6b7280;
+  --gray-light: #9aa3b2;
+  --border: #e8eef7;
+
+  --white: #ffffff;
+
+  /* ---- Shape / elevation ---- */
+  --radius-sm: 10px;
+  --radius: 18px;
+  --radius-lg: 26px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 4px 14px rgba(13, 30, 60, 0.06);
+  --shadow: 0 14px 40px rgba(13, 30, 60, 0.10);
+  --shadow-lg: 0 24px 60px rgba(13, 30, 60, 0.14);
+
+  --section-pad: clamp(56px, 7vw, 78px);
+  --section-pad-sm: clamp(46px, 5vw, 60px);
+  --container: 1100px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--ink);
+  background: var(--white);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Custom container that matches the layout width used across sections */
+.mw-container {
+  width: 100%;
+  max-width: var(--container);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* ---- Section spacing helpers ---- */
+.section {
+  padding-top: var(--section-pad);
+  padding-bottom: var(--section-pad);
+}
+.section--soft {
+  background: var(--blue-soft);
+}
+
+/* ---- Eyebrow (small blue label above headings) ---- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 14px;
+}
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--blue);
+}
+
+/* ---- Headings ---- */
+.sec-title {
+  margin: 0;
+  color: var(--dark);
+  font-weight: 800;
+  font-size: clamp(1.7rem, 3.4vw, 2.55rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.sec-sub {
+  margin: 16px 0 0;
+  color: var(--gray);
+  font-size: 1.02rem;
+  max-width: 620px;
+}
+
+/* ---- Buttons ---- */
+.btn-brand {
+  --btn-bg: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 26px;
+  border: 2px solid var(--blue);
+  border-radius: var(--radius-pill);
+  background: var(--blue);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.98rem;
+  line-height: 1;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease,
+    box-shadow 0.25s ease;
+  box-shadow: 0 10px 22px rgba(20, 107, 255, 0.28);
+}
+.btn-brand:hover {
+  background: var(--blue-dark);
+  border-color: var(--blue-dark);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(20, 107, 255, 0.34);
+}
+.btn-brand:focus-visible {
+  outline: 3px solid rgba(20, 107, 255, 0.35);
+  outline-offset: 2px;
+}
+
+.btn-outline-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 26px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--dark);
+  font-weight: 700;
+  font-size: 0.98rem;
+  line-height: 1;
+  transition: border-color 0.25s ease, color 0.25s ease, transform 0.2s ease,
+    box-shadow 0.25s ease;
+}
+.btn-outline-brand:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---- Subtle reveal-on-scroll animation ---- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-up {
+  animation: fade-up 0.7s ease both;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
